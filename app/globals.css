@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-cream text-walnut font-sans;
+    /* Subtle warm-light radials give the cream background depth without
+       overpowering it. Pinned so they don't drift on scroll. */
+    background-image:
+      radial-gradient(900px 500px at 90% -10%, rgba(240, 216, 138, 0.20), transparent 60%),
+      radial-gradient(800px 480px at -10% 5%, rgba(240, 216, 200, 0.45), transparent 60%);
+    background-attachment: fixed;
+  }
+  ::selection {
+    @apply bg-butter/40 text-ink;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display text-ink;
+  }
+}
+
+@layer components {
+  /* Page container — sits inside any section, constrains content width */
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-6 sm:px-8;
+  }
+
+  /* Eyebrow label above section headings — matches app's section labels */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-pill bg-warm px-4 py-1.5
+           text-xs font-semibold uppercase tracking-eyebrow text-walnut
+           ring-1 ring-soft/80;
+  }
+
+  /* Primary CTA — terracotta pill, identical to app's "Buy now" button */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-btn
+           bg-terracotta px-7 py-3.5 text-sm font-semibold text-white
+           shadow-btn transition-all duration-200
+           hover:-translate-y-0.5 hover:bg-[#B5552B]
+           active:translate-y-0;
+  }
+
+  /* Secondary CTA — outlined pill */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-btn
+           bg-white px-7 py-3.5 text-sm font-semibold text-terracotta
+           ring-1 ring-terracotta/40 shadow-pill transition-all duration-200
+           hover:-translate-y-0.5 hover:bg-warm hover:ring-terracotta;
+  }
+
+  /* Universal card — matches AppTheme.card + shadowCard + border */
+  .card {
+    @apply rounded-card bg-white p-7 shadow-card ring-1 ring-soft;
+  }
+
+  /* Floating colour blob behind hero etc. */
+  .blob {
+    @apply pointer-events-none absolute -z-10 rounded-full opacity-60 blur-3xl;
+  }
+
+  /* Section spacing */
+  .section {
+    @apply py-20 sm:py-28;
+  }
+}
