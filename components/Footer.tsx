@@ -60,6 +60,9 @@ export function Footer() {
             <Link href="/terms" className="hover:text-ink">
               Terms
             </Link>
+            <Link href="/disclaimer" className="hover:text-ink">
+              Disclaimer
+            </Link>
           </div>
         </div>
       </div>

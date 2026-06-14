@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PhoneMockup } from "./PhoneMockup";
+import { ScreenshotPhone } from "./ScreenshotPhone";
 import { StoreBadges } from "./StoreBadges";
 import { site } from "@/lib/site";
 
@@ -33,7 +33,7 @@ export function Hero() {
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-walnut">
             Follow local wardrobes you love and get notified the moment new
             items in your child&apos;s size are listed. No more endless scrolling
-            through Facebook Marketplace.
+            through Marketplace.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -69,7 +69,11 @@ export function Hero() {
         </div>
 
         <div className="relative">
-          <PhoneMockup />
+          <ScreenshotPhone
+            src="/screenshots/home-tommy.jpg"
+            alt="Nappy Valley app home screen — Tommy's age range with wardrobes you follow"
+            priority
+          />
         </div>
       </div>
     </section>
