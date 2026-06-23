@@ -7,6 +7,10 @@ type Status = "idle" | "loading" | "success" | "error";
 
 export function Waitlist() {
   const [email, setEmail] = useState("");
+  // Honeypot: visually hidden, off-screen, not in tab order. Real users
+  // never fill it; bots fill every field they see. If it's non-empty
+  // when the form submits, the API silently drops the request.
+  const [website, setWebsite] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState<string>("");
 
@@ -17,7 +21,7 @@ export function Waitlist() {
       const res = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, website }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -78,6 +82,26 @@ export function Waitlist() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@home.com"
               className="w-full rounded-pill bg-white px-5 py-3.5 text-sm text-ink placeholder:text-walnut/60 ring-1 ring-soft focus:outline-none focus:ring-2 focus:ring-terracotta"
+            />
+            {/* Honeypot — visible only to bots. aria-hidden + tabIndex -1 +
+                offscreen positioning + autoComplete off keep it away from
+                screen readers, password managers, and tab key users. */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              style={{
+                position: "absolute",
+                left: "-10000px",
+                width: "1px",
+                height: "1px",
+                opacity: 0,
+                pointerEvents: "none",
+              }}
             />
             <button
               type="submit"
