@@ -163,7 +163,7 @@ async function sendSignupEmail(email: string, ua: string) {
 </body>
 </html>`;
 
-  await fetch("https://api.resend.com/emails", {
+  const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -176,6 +176,14 @@ async function sendSignupEmail(email: string, ua: string) {
       html,
     }),
   });
+
+  // fetch() doesn't throw on 4xx/5xx — we have to inspect the response
+  // explicitly. Without this, Resend's auth / validation errors are
+  // swallowed and the call looks successful from Vercel's side.
+  if (!res.ok) {
+    const body = await res.text().catch(() => "<no body>");
+    throw new Error(`Resend ${res.status} ${res.statusText}: ${body}`);
+  }
 }
 
 function escapeHtml(s: string): string {
