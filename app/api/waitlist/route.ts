@@ -104,12 +104,24 @@ export async function POST(req: Request) {
   // Best-effort notification email. We await so it fires before the
   // Vercel function terminates, but a failure here doesn't break the
   // signup itself.
+  console.log(
+    "[waitlist] notify email check — RESEND_API_KEY present:",
+    !!RESEND_API_KEY,
+    "key length:",
+    RESEND_API_KEY?.length ?? 0,
+  );
   if (RESEND_API_KEY) {
     try {
+      console.log("[waitlist] attempting notify email to", ADMIN_EMAIL);
       await sendSignupEmail(rawEmail, userAgent ?? "");
+      console.log("[waitlist] notify email sent successfully");
     } catch (e) {
       console.error("[waitlist] notify email failed:", e);
     }
+  } else {
+    console.error(
+      "[waitlist] RESEND_API_KEY env var is not set — skipping notification email",
+    );
   }
 
   return NextResponse.json({ ok: true });
